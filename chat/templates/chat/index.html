@@ -6,28 +6,26 @@
     <title>Chat Rooms</title>
 </head>
 <body>
-    Enter Your name<br/>
-    <input id="userid" type="text" size="100"/><br/>
-    Enter Your friends name<br/>
-    <input id="friendid" type="text" size="100"/><br/>
-    <input id="room-name-submit" type="button" value="Enter"/>
+     You are : {{request.user.username}}<br/>
+     <a href="/logout"><button>logout</button></a>
+
+      {%for user in userlist%}
+        {%if user.username != request.user.username %}
+          <p style="cursor:pointer;" onclick="roomNameGen('{{request.user.username}}','{{user.username}}')">{{user.username}}</p>
+        {%endif%}  
+      {%endfor%}
 
     <script>
-        document.querySelector('#userid').focus();
-        document.querySelector('#friendid').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#room-name-submit').click();
-            }
-        };
 
-        document.querySelector('#room-name-submit').onclick = function(e) {
-            var userid = document.querySelector('#userid').value;
-            var friendid = document.querySelector('#friendid').value;
-            var roomName = [userid,friendid].sort().join("");
-            document.cookie="userid="+userid;
+      function roomNameGen(userid,friendid){
+        var roomName = [userid,friendid].sort().join("");
+        document.cookie="userid="+userid;
 
-            window.location.pathname = '/chat/' + roomName + '/';
-        };
+        window.location.pathname = '/chat/' + roomName + '/';
+
+      };
+
+
     </script>
 </body>
 </html>

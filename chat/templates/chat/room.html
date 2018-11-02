@@ -7,7 +7,8 @@
 </head>
 <body>
     You are :<span id = "useridarea"></span><br/>
-    <textarea readonly id="chat-log" cols="100" rows="20">{%for logitem in message_log%}{{logitem.sender}}({{logitem.timestamp}}) : {{logitem.message}}&#13;&#10;{%endfor%}</textarea><br/>
+    <a href="/logout"><button>logout</button></a><br>
+    <textarea readonly id="chat-log" cols="100" rows="20">{%for logitem in message_log%}{{logitem.sender}} : {{logitem.message}}&#13;&#10;{%endfor%}</textarea><br/>
     <input id="chat-message-input" type="text" size="100"/><br/>
     <input id="chat-message-submit" type="button" value="Send"/>
 </body>
