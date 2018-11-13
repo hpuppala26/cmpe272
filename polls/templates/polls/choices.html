@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<form action="{% url 'polls:savechoices' %}" method="POST">
+		<!-- import question and number of choices from questions.html-->
+		<h1> <!-- Question text --></h1>
+		{% csrf_token %}
+		{% for choice in number%}
+			<input type="text" name="choice{{ forloop.counter }}" >
+        {% endfor %}
+		    <input name="number" id="i1" value="{{ number }}" hidden >
+            <input type="text" name="question" value="{{ question }}" hidden >
+            <input type="submit">
+        </form>
+	</body>
+    <script>
+        let a = document.getElementById("i1").value;
+        console.log(a);
+    </script>
+</html>
