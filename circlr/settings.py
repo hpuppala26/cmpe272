@@ -20,26 +20,25 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4+w(osd=1+1(#ksou^da!o-r)y+p*=n^#zq7i(ze0tr--q409!'
+SECRET_KEY = 'n%(cvt%f)g_u48%0-ddf)rq6t%xlx9ot)(gwi63(dtz0o@%@k('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'chat',
-    'files',
+    'articles',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'circlr.urls'
@@ -57,7 +57,7 @@ ROOT_URLCONF = 'circlr.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,17 +71,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'circlr.wsgi.application'
-ASGI_APPLICATION = 'circlr.routing.application'
-
-ASGI_APPLICATION = 'circlr.routing.application'
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
 
 
 # Database
@@ -127,11 +116,37 @@ USE_L10N = True
 
 USE_TZ = True
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR,'assets'),
+)
+
+'''LOGIN_REDIRECT_URL = '/accounts/'
+
+LOGIN_URL = '/accounts/login/'
+
+LOGIN_EXEMPT_URLS = (
+        r'^accounts/logout/$',
+        r'^accounts/signup/$',
+        r'^accounts/reset-password/$',
+        r'^accounts/reset-password/done/$',
+        r'^accounts/reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
+        r'^accounts/reset-password/complete/$',
+)'''
+
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = 1025
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'projectcirclr@gmail.com'
+EMAIL_HOST_PASSWORD = 'circlr@147'
+EMAIL_PORT = 587
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'circlr/media')

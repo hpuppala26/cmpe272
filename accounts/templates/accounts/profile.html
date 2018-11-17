@@ -1,0 +1,18 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+      <div class="container">
+      <h1>Profile</h1>
+            <p>Username: {{ user }}</p>
+            <p>First Name: {{ user.first_name }}</p>
+            <p>Last Name: {{ user.last_name }}</p>
+            <p>Email: {{ user.email }} </p>
+            <p>Bio: {{ user.userprofile.bio }} </p>
+            <p>City: {{ user.userprofile.city }} </p>
+            <p>Interests: {{ user.userprofile.interests }} </p>
+            Profile Picture: <br><img src="{{ user.userprofile.picture.url }}" width="240px" height="240px"/>
+            {% if editable == True %}
+            <a href="{% url 'accounts:edit_profile' user.username %}">Edit Profile</a>
+            {% endif %}
+      </div>
+{% endblock %}
