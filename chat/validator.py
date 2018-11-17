@@ -1,7 +1,11 @@
+from django.contrib.auth.models import User
 def roomvalidate(username,roomname):
     difference = roomname.replace(username,"",1)
     reconstructed = "".join(sorted([username,difference]))
-    if roomname == reconstructed:
+    userlist =  User.objects.filter(username=difference )
+    if roomname == reconstructed and len(userlist):
         return True
     else:
-        return False    
+        return False
+def receiver_gen(username,roomname):
+    return roomname.replace(username,"",1)

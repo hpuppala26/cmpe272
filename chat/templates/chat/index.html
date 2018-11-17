@@ -8,11 +8,16 @@
 <body>
      You are : {{request.user.username}}<br/>
      <a href="/logout"><button>logout</button></a>
+     <h3><p>Recents</p></h3>
+     {%for item in recentlist%}
+      <p style="cursor:pointer;" onclick="roomNameGen('{{request.user.username}}','{{item}}')">{{item}}</p>
+     {%endfor%}
 
+      <h3><p>All users</p></h3>
       {%for user in userlist%}
         {%if user.username != request.user.username %}
           <p style="cursor:pointer;" onclick="roomNameGen('{{request.user.username}}','{{user.username}}')">{{user.username}}</p>
-        {%endif%}  
+        {%endif%}
       {%endfor%}
 
     <script>

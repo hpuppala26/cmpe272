@@ -11,9 +11,11 @@
     <textarea readonly id="chat-log" cols="100" rows="20">{%for logitem in message_log%}{{logitem.sender}} : {{logitem.message}}&#13;&#10;{%endfor%}</textarea><br/>
     <input id="chat-message-input" type="text" size="100"/><br/>
     <input id="chat-message-submit" type="button" value="Send"/>
+    
 </body>
 <script>
     var roomName = {{ room_name_json }};
+
 
     function getCookie(name) {
               var value = "; " + document.cookie;

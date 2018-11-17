@@ -10,8 +10,10 @@ from .validator import *
 
 @login_required(login_url='/admin/login/')
 def index(request):
+    recentlist = get_recents(request.user.username)
     return render(request, 'chat/index.html', {
-        'userlist' : User.objects.all()
+        'userlist' : User.objects.all(),
+        'recentlist':recentlist
     })
 
 @login_required(login_url='/admin/login/')
