@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+{% if user == forum.creatorid %}
+	<a href="{% url 'forum-delete' forum.slug %}" style="float: right; margin-left:10px;" class="btn btn-outline-dark">Delete Forum</a><a href="{% url 'forum-update' forum.slug %}" style="float: right;" class="btn btn-outline-dark">Edit Forum</a><br>
+{% endif %}
+<p>You're at the forum "{{forum.forumname}}"</p>
+{% if forum.writeprivacy == 2 and user == forum.creatorid or forum.writeprivacy == 1 and user.is_authenticated %}
+	<a href="{% url 'topic-create' forum.slug %}" style="float: right;" class="btn btn-outline-dark">Create a Topic</a><br>
+{% endif %}
+{% if topics %}
+	Topics:<br>
+	{% for topic in topics %}
+		{% if topic.viewprivacy == 3 and user == topic.creatorid or topic.viewprivacy == 2 and user.is_authenticated or topic.viewprivacy == 1%}
+			<a href="{% url 'topicpage' forum.slug topic.slug %}"><h3>{{ topic.topicname }}</h3></a><br>
+		{% endif %}
+	{% endfor %}
+{% else %}
+	<p>No topics are available. {% if forum.writeprivacy == 1 %}{% if user.is_authenticated %}Go create some!{% else %}Log-in to create some!{% endif %}{% endif %} </p>
+{% endif %}
+{% endblock %}

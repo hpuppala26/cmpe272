@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+{% if user == topic.creatorid %}
+	<a href="{% url 'topic-delete' forum.slug topic.slug %}" style="float: right; margin-left:10px;" class="btn btn-outline-dark">Delete Topic</a><a href="{% url 'topic-update' forum.slug topic.slug %}" style="float: right;" class="btn btn-outline-dark">Edit Topic</a><br>
+{% endif %}
+<p>You're at the topic "{{topic.topicname}}" of forum "{{forum.forumname}}"</p>
+{% if posts %}
+	Posts:<br>
+	<ul>
+	{% for post in posts %}
+			<li>This post was written by {% if post.creatorid %}{{ post.creatorid.username }}{% else %}Anonymous User{% endif %}</li>
+			{% if user == post.creatorid %}
+			<li class="bg-danger">You created this post!</li>
+			{% endif %}
+		<pre><li>{{ post.content }}</li></pre>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>No posts are available. Go create some!</p>
+{% endif %}
+<form method="POST">{% csrf_token %}
+	<div class="row">
+		{{ form }}
+		<input type="submit" value="Post" class="btn btn-dark" style="float: right">
+	</div>
+</form>
+{% endblock %}

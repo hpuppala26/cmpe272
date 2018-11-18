@@ -2,8 +2,7 @@ from django.urls import re_path
 from . import views
 from django.contrib.auth.views import (
         PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView, LoginView
-)
-from articles import views as article_views
+        )
 from django.contrib.auth.models import User
 app_name = 'accounts'
 
