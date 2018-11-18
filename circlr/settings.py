@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #'channels',
     'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'forums.apps.ForumsConfig',
 	'friends',
+	'chat',
+    'files',
 ]
 
 MIDDLEWARE = [
@@ -74,7 +77,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'circlr.wsgi.application'
-
+'''ASGI_APPLICATION = "circlr.routing.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}'''
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
