@@ -26,7 +26,7 @@ from django.core.mail import EmailMessage
 # Create your views here.
 @login_required(login_url="/accounts/login")
 def home(request):
-    return redirect('articles:list')
+    return render(request, 'accounts/home.html')
 
 
 
@@ -35,9 +35,23 @@ def signup_view(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('accounts:details')
+            user = form.save(commit=False)
+            user.is_active = False
+            user.save()
+            current_site = get_current_site(request)
+            mail_subject = 'Activate your blog account.'
+            message = render_to_string('accounts/acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)).decode(),
+                'token':account_activation_token.make_token(user),
+            })
+            to_email = form.cleaned_data.get('email')
+            email = EmailMessage(
+                        mail_subject, message, to=[to_email]
+            )
+            email.send()
+            return render(request, 'accounts/email_confirm.html')
     else:
         form = RegistrationForm()
     return render(request, 'accounts/signup.html', {'form': form})
@@ -52,7 +66,7 @@ def signup_detailsview(request):
             # picture = profile_form.cleaned_data.get('picture')
             # userprofile.picture = picture
             profile_form.save()
-            return redirect('articles:list')
+            return redirect('accounts:home')
         else:
             messages.error(request, ('Please correct the error below'))
     else:
@@ -65,9 +79,9 @@ def signup_detailsview(request):
 
 
 def login_view(request):
-     # if request.user:
-     #     return redirect('articles:list')
-     # else:
+     if request.user.is_authenticated:
+         return redirect('accounts:home')
+     else:
         if request.method == 'POST':
             form = AuthenticationForm(data=request.POST)
             if form.is_valid():
@@ -76,7 +90,7 @@ def login_view(request):
                 if 'next' in request.POST:
                     return redirect(request.POST.get('next'))
                 else:
-                    return redirect('articles:list')
+                    return redirect('accounts:home')
         else:
             form = AuthenticationForm()
         return render(request, 'accounts/login.html', {'form': form})
@@ -85,9 +99,9 @@ def login_view(request):
 
 
 def logout_view(request):
-    if request.method == 'POST':
+    #if request.method == 'POST':
         logout(request)
-        return render(request, 'accounts/logout.html')
+        return redirect('accounts:home')
 
 
 
@@ -103,13 +117,6 @@ def view_profile(request, username):
     return render(request, 'accounts/profile.html', args)
 
 
-
-# @login_required(login_url="/accounts/login")
-# def view_other(request, username):
-#     user_2 = request.user
-#     user = User.objects.get(username=username)
-#     args = {'user':user, 'user_2':user_2}
-#     return render(request, 'accounts/profile.html', args)
 
 
 
@@ -164,10 +171,11 @@ def activate(request, uidb64, token):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
-        user.userprofile.email_confirmed = True
+        user.emailconfirm.email_confirmed = True
         user.save()
         login(request, user)
         # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        #return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return redirect('accounts:details')
     else:
         return HttpResponse('Activation link is invalid!')

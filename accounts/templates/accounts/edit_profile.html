@@ -1,14 +1,28 @@
 {% extends 'base_layout.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
+<div class="w3-container w3-content" style="margin-top:100px">
+  <!-- <div class="w3-row"> -->
+  <div class="w3-col m7">
+
+<div class="w3-row-padding">
+  <!-- <div class="w3-col m12"> -->
+    <div class="w3-card w3-round w3-white">
+      <div class="w3-container w3-padding" style="font-size:20px">
       <h1>Edit Your Profile</h1>
-      <div>
+      <div><br>
           <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ user_form.as_p }}
-                {{ profile_form.as_p }}
-                <button type="submit">Submit</button>
+                {{ user_form|crispy}}
+                {{ profile_form|crispy }}<br>
+                <button type="submit" class="btn-default btn-lg">Submit</button>
           </form>
           <br>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
       </div>
 {% endblock %}

@@ -16,15 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from articles import views as article_views
+from accounts import views as accounts_views
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^accounts/', include('accounts.urls', namespace='accounts')),
-    re_path(r'^articles/', include('articles.urls')),
-    re_path(r'^$', article_views.article_list, name="home"),
+    re_path(r'^$', accounts_views.home, name="home"),
     path('', include('django.contrib.auth.urls')),
 ]
 

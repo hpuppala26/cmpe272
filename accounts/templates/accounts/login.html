@@ -1,16 +1,28 @@
 {% extends 'base_layout.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="container">
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
+<div class="w3-row">
+
+<div class="w3-col m3">
+
+  <div class="w3-card w3-round w3-white">
+    <div class="w3-container">
       <h1>Log in</h1>
       <form class="site-form" action="{% url 'accounts:login' %}" method="post">
           {% csrf_token %}
-          {{ form }}
+          {{ form|crispy }}
           {% if request.GET.next %}
             <input type="hidden" name="next" value="{{ request.GET.next }}">
-          {% endif %}
+          {% endif %}<br>
           <input type="submit" value="Login">
       </form>
+      <p><br>Don't have an account? <a href="{% url 'accounts:signup' %}">  Sign Up </a></p>
       <p><a href="{% url 'accounts:password_reset' %}">Forgot Password?</a></p>
+    </div>
+    </div>
+    </div>
+    </div>
     </div>
 {% endblock %}

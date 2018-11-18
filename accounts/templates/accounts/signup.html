@@ -1,12 +1,25 @@
 {% extends 'base_layout.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="container">
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
+<div class="w3-col m7">
+
+      <div class="w3-row-padding">
+        <div class="w3-col m12">
+          <div class="w3-card w3-round w3-white">
+            <div class="w3-container w3-padding">
     <h1>Signup</h1>
     <form class="site-form" action="/accounts/signup/" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
+        <br>
+        
         <input type="submit" value="Signup">
     </form>
     </div>
+  </div>
+  </div>
+  </div>
+  </div>
 {% endblock %}

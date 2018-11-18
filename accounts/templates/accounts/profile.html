@@ -1,8 +1,20 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-      <div class="container">
-      <h1>Profile</h1>
+      <div class="w3-container w3-content" style="margin-top:100px">
+        <div class="w3-col m7">
+      <div class="w3-row-padding">
+          <div class="w3-card w3-round w3-white">
+            <div class="w3-container w3-padding" style="font-size:20px">
+      <p style="font-size:36px">Profile
+            <span>
+              {% if editable == True %}
+              <a href="{% url 'accounts:edit_profile' user.username %}" class="btn btn-default btn-sm pull-right">
+          <span class="glyphicon glyphicon-pencil"></span> Edit
+          {% endif %}
+        </a>
+            </span>
+          </p>
             <p>Username: {{ user }}</p>
             <p>First Name: {{ user.first_name }}</p>
             <p>Last Name: {{ user.last_name }}</p>
@@ -10,9 +22,11 @@
             <p>Bio: {{ user.userprofile.bio }} </p>
             <p>City: {{ user.userprofile.city }} </p>
             <p>Interests: {{ user.userprofile.interests }} </p>
-            Profile Picture: <br><img src="{{ user.userprofile.picture.url }}" width="240px" height="240px"/>
-            {% if editable == True %}
-            <a href="{% url 'accounts:edit_profile' user.username %}">Edit Profile</a>
-            {% endif %}
+            Profile Picture: <br><br><img src="{{ user.userprofile.picture.url }}" width="240px" height="240px"/><br>
+            </div>
+      </div>
+      </div>
+      </div>
+      </div>
       </div>
 {% endblock %}
