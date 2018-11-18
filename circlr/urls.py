@@ -19,13 +19,16 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from accounts import views as accounts_views
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth.views import PasswordResetCompleteView
 
 urlpatterns = [
+	path('reset/done', PasswordResetCompleteView.as_view(template_name="accounts/reset_password_complete.html"), name="password_reset_complete"),
     path('admin/', admin.site.urls),
     re_path(r'^accounts/', include('accounts.urls', namespace='accounts')),
     re_path(r'^$', accounts_views.home, name="home"),
     path('', include('django.contrib.auth.urls')),
     path('forums/', include('forums.urls')),
+	path('friends/', include('friends.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

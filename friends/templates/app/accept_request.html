@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>accepting request</title>
+  </head>
+  <body>
+    <div>
+      <form method="POST">
+        {%csrf_token%}
+        {{form.as_p}}
+        <button type="submit">Submit</button>
+      </form>
+  </div>
+  </body>
+</html>

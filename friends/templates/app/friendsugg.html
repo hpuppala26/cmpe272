@@ -1,0 +1,125 @@
+{% extends 'base.html'%}
+
+{%block head%}
+  <title>suggestions</title>
+{% endblock%}
+{%block content%}
+<div class="panel-group">
+  <div class="panel panel-primary">
+    <div class="panel-heading"><h1 >MATCH MAKING:</h1></div>
+    <div class="panel-body" style='bgcolor':black>
+      <div class="container">
+        <!-- <h3>{{currusercity}}</h3><br><h3>{{curruserinterest}}</h3> -->
+        <div class="col-md-4" style="background-color:#D5D8DC">
+          <h4 class="well">Search By Username</h4>
+          <form  method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type='submit' name='search' class="btn btn-info">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </form>
+          <hr>
+          <br><br>
+          <ul>
+            {% if userlist %}
+              {% for user in userlist %}
+                <li class="list-group-item list-group-item-info"><a href=''><h4>{{user}}</h4></a>
+                  {%if user|stringformat:"s" not in friends%}
+                      <button type='submit' name='add friend' class="btn btn-primary">ADD_FRIEND</button>
+                  {%endif%}
+                </li>
+              {% endfor %}
+            {%else%}
+              <h6>no match found</h6>
+            {% endif%}
+            <!--{% for user in userlist %}
+              {% if user.user|stringformat:"s" != curruser %}
+                {{ user.interest|make_list }}
+                {% for aa in list%}
+                  {%if aa == text %}
+                    <li>{{user.user}}</li>
+                  {%endif%}
+                {% endfor %}
+              {% endif %}
+            {% endfor%}
+            -->
+
+          <!-- {% for user in userlist %}
+              {% if user.user|stringformat:"s" != curruser %}
+                {% if user.user|stringformat:"s" == text or user.interest.lower == text or user.interest.upper == text or user.city.lower == text or user.city.upper == text  %}
+
+                  <li>{{user.user}}</li>
+
+                {% endif %}
+              {% endif %}
+            {%endfor%}
+            -->
+          </ul>
+        </div>
+
+        <div class="col-md-4" style="background-color:#D5D8DC">
+          <h4 class="well">Search By Interest</h4>
+          <form method="POST">
+            {% csrf_token %}
+            {{form1.as_p}}
+            <button type='submit' name='search' class="btn btn-info">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </form>
+          <hr>
+          <br><br>
+          <ul>
+            {%if interestlist %}
+              {% for user in interestlist %}
+                  <li class="list-group-item list-group-item-info"><a href=''><h4> {{user}}</h4></a>
+                    {%if user|stringformat:"s" not in friends%}
+                        <button type='submit' name='add friend' class="btn btn-primary">ADD_FRIEND</button>
+                    {%endif%}
+                  </li>
+              {% endfor %}
+            {%else%}
+              <h6>no match found</h6>
+            {%endif%}
+            <!--{% for user in userlist %}
+              {% if user.user|stringformat:"s" != curruser %}
+                {{ user.interest|make_list }}
+                {% for aa in list%}
+                  {%if aa == text %}
+                    <li>{{user.user}}</li>
+                  {%endif%}
+                {% endfor %}
+              {% endif %}
+            {% endfor%}
+            -->
+
+           <!-- {% for user in userlist %}
+              {% if user.user|stringformat:"s" != curruser %}
+                {% if user.user|stringformat:"s" == text or user.interest.lower == text or user.interest.upper == text or user.city.lower == text or user.city.upper == text  %}
+
+                  <li>{{user.user}}</li>
+
+                {% endif %}
+              {% endif %}
+            {%endfor%}
+            -->
+          </ul>
+        </div>
+
+
+        <div class="col-md-4" style="background-color:#D5D8DC">
+          <h4 class="well">Friend Suggestion:</h4>
+          <hr>
+          <br><br>
+          <ul>
+            {% for user in suggestionlist %}
+              <li class="list-group-item list-group-item-info"><a href=''><h4>{{user}}</h4></a><br>
+                <button type='submit' name='add friend' class="btn btn-primary">ADD_FRIEND</button>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{%endblock%}
