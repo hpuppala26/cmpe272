@@ -30,6 +30,8 @@ urlpatterns = [
     path('forums/', include('forums.urls')),
 	path('friends/', include('friends.urls')),
     path('polls/', include('polls.urls')),
+	re_path(r'^files/', include('files.urls')),
+    re_path(r'^chat/', include('chat.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

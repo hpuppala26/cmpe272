@@ -1,0 +1,33 @@
+{% block content %}
+    {{upload_status}}<br>
+    
+    <form class="" action="{% url 'fileindex' %}" method="post" enctype="multipart/form-data" >
+      {%csrf_token%}
+      <input type="file" name="uploadedfile"><br>
+      <button type="submit" name="">Upload</button>
+    </form>
+    Your Files:<br>
+    <span id="copied" ></span><br>
+    {%for file in file_list%}
+      <a href="{{file.file_id}}">{{file.name}}</a>
+      <button onclick="CopyAndShare('{{file.file_id}}')">Copy Link!</button><br>
+    {%endfor%}
+    <textarea style = "display:none" id="copier"></textarea>
+  <script>
+  function CopyAndShare(file_id){
+
+    var copyText = document.getElementById("copier");
+    copyText.style.display="";
+    copyText.value=window.location.host+"/files/"+file_id
+    copyText.select();
+    document.execCommand("copy");
+    copyText.style.display="none";
+    document.getElementById('copied').innerHTML = "Link Copied to Clipboard";
+  };
+  function closeWin()   // Tested Code
+  {
+    var someIframe = window.parent.document.getElementById('files_frame');
+    someIframe.parentNode.removeChild(window.parent.document.getElementById('files_frame'));
+  };
+  </script>
+{% endblock content %}
