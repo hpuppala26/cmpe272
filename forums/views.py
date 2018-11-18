@@ -67,7 +67,7 @@ class ForumUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class ForumDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 	model = Forum
-	success_url = '/forum'
+	success_url = '/forums'
 	def test_func(self):
 		forum = self.get_object()
 		if self.request.user == forum.creatorid:

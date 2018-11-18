@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+   <br><br><br><br>
+   <h2 style="color:#7D3C98">Enter Your Options Here</h2><br><br>
+      <div class="row">
+    <form class="col s12" action="{% url 'polls:savechoices' %}" method = "POST"><br>
+	{% csrf_token %}
+      <div class="row">
+        <div class="input-field col s12">
+		{% for choice in number %}
+            <input name="choice{{ forloop.counter }}"  type="text" class="validate">
+    {% endfor %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input name="number" id = "i1" value="{{ number }}" hidden >
+		  <input type="text" name="question" value="{{ question }}" hidden >
+        </div>&nbsp &nbsp &nbsp &nbsp <center>
+          <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+    <i class="material-icons right">send</i>
+	</center>
+  </button>
+      </div>
+    </form>
+	</div>
+{% endblock content %}

@@ -24,13 +24,13 @@
 				<ul class="navbar-nav ml-auto" style="padding: 0px 10px">
 					{% if user.is_authenticated %}
 						<li class="nav-item">
-							<a class="nav-link" href="#">Find Friends</a>
+							<a class="nav-link" href="{% url 'matching' %}">Find Friends</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="#">Messaging</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">Polls</a>
+							<a class="nav-link" href="{% url 'polls:index' %}">Polls</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="{% url 'forum-home' %}">Forums</a>
