@@ -28,7 +28,7 @@ urlpatterns = [
     re_path(r'^$', accounts_views.home, name="home"),
     path('', include('django.contrib.auth.urls')),
     path('forums/', include('forums.urls')),
-	path('friends/', include('friends.urls')),
+	path('friends/', include('friends.urls'), name="friends"),
     path('polls/', include('polls.urls')),
 	re_path(r'^files/', include('files.urls')),
     re_path(r'^chat/', include('chat.urls')),

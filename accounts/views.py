@@ -24,7 +24,6 @@ from django.core.mail import EmailMessage
 
 
 # Create your views here.
-@login_required(login_url="/accounts/login")
 def home(request):
     return render(request, 'accounts/home.html')
 

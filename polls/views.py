@@ -26,7 +26,7 @@ def vote(request,question_id):
     question = get_object_or_404(Question,pk=question_id)
     if Voter.objects.filter(question_id=question_id,user=request.user.username).exists():
         #return HttpResponse("YOU ALREADY VOTED")
-        return render(request,'polls/alreadyvoted.html')
+        return render(request,'polls/alreadyvoted.html',{'question.id':question_id})
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError,Choice.DoesNotExist):

@@ -3,7 +3,8 @@ window.onload = function () { startstick() };
 function startstick() {
     window.onscroll = function () { stickyfunc() };
     var navbar = document.getElementById("navbar");
-    var sticky = navbar.offsetTop;
+    var navbarcont = document.getElementById("navbarcont");
+    var sticky = navbarcont.offsetTop;
 
     function stickyfunc() {
         if (window.pageYOffset >= sticky) {
