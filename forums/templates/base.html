@@ -30,7 +30,7 @@
 		<div class="nav-wrapper">
 			<ul class="navigation">
 				{% if user.is_authenticated %}
-				<li><a href="{% url 'home' %}" {% url 'home' as home %}{% if request.path == home %} class="active"{% endif %}>Home</a></li>
+				<li><a href="{% url 'home' %}" {% url 'home' as home %}{% if request.path == home or request.path == '/accounts/' %} class="active"{% endif %}>Home</a></li>
 				<li><a href="{% url 'matching' %}" {% if '/friends/' in request.path %}class="active"{% endif %}>Find Friends</a></li>
 				<li><a href="{% url 'chat:index' %}" {% if '/chat/' in request.path %}class="active"{% endif %}>Messaging</a></li>
 				<li><a href="{% url 'polls:index' %}" {% if '/polls/' in request.path %}class="active"{% endif %}>Polls</a></li>
