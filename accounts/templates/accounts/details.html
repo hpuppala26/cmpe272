@@ -90,6 +90,7 @@ label{
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ profile_form|crispy }}<br>
+    <label for="Interest">Interests:</label><input type="text" name="interests" value="" id="Interest"><br>
     <center><button type="submit" class="btn-default btn-lg" id = "Submit">Submit</button></center>
   </form>
 </div>

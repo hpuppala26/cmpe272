@@ -22,7 +22,7 @@ from django.conf import settings
 from django.contrib.auth.views import PasswordResetCompleteView
 
 urlpatterns = [
-	path('reset/done', PasswordResetCompleteView.as_view(template_name="accounts/reset_password_complete.html"), name="password_reset_complete"),
+	path('reset/done/', PasswordResetCompleteView.as_view(template_name="accounts/reset_password_complete.html"), name="password_reset_complete"),
     path('admin/', admin.site.urls),
     re_path(r'^accounts/', include('accounts.urls', namespace='accounts')),
     re_path(r'^$', accounts_views.home, name="home"),

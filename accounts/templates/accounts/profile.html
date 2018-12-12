@@ -107,10 +107,11 @@
   </div>
   <center>
     <p style="font-size:36px; margin-top:0px;font-family: Sitefont-medium">{{ user }}<br></p>
-    <div id="bio">{{ user.userprofile.bio }}</div>
+    {% if user.userprofile.bio %}<div id="bio">{{ user.userprofile.bio }}</div>{% endif %}
   </center>
   <div id="editdiv">
     {% if editable == True %}
+    <button id="edit" onclick="window.location.href='{% url 'accounts:settings' user.username %}'">Settings</button>
     <button id="edit" onclick="window.location.href='{% url 'accounts:edit_profile' user.username %}'">Edit Profile</button>
     {% endif %}
   </div>
@@ -118,6 +119,9 @@
   <p>Name: {{ user.first_name }} {{ user.last_name }}</p>
   <p>Email: {{ user.email }} </p>
   <p>City: {{ user.userprofile.city }} </p>
-  <p id="interest">Interests: {{ user.userprofile.interests }} </p>
+  <p id="interest">Interests:
+                {% for int in interestlist %}
+                {{int}},
+                {% endfor %}</p>
 </div>
 {% endblock %}

@@ -1,10 +1,11 @@
 from django.contrib import admin
-from accounts.models import UserProfile, EmailConfirm
+from accounts.models import UserProfile, EmailConfirm, Interest_Model
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
 # Register your models here.
 admin.site.register(UserProfile)
+admin.site.register(Interest_Model)
 
 class EmailConfirmInline(admin.StackedInline):
     model = EmailConfirm

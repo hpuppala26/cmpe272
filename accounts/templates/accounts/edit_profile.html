@@ -57,6 +57,7 @@
     {% csrf_token %}
     {{ user_form|crispy}}
     {{ profile_form|crispy }}<br>
+    Interests: <input type="text" name="interests" value="{% for int in interest_list %}{{ int }},{% endfor %}" size='120px'><br><br>
     <center><button type="submit" id="Submit">Submit</button></center>
   </form>
   <br>
