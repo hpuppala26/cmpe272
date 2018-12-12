@@ -7,7 +7,7 @@ function startstick() {
     var sticky = navbarcont.offsetTop;
 
     function stickyfunc() {
-        if (window.pageYOffset >= sticky) {
+        if (window.pageYOffset >= sticky-50) {
             navbar.classList.add('sticky');
         }
         else {
