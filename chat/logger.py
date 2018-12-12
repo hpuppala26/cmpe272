@@ -22,5 +22,9 @@ def get_recents(username):
             recentlist.append((receiver_gen(username,message.roomname),message.sender,message.message,message.timestamp))
     return unique(recentlist)
 
+def roomname_gen(username1,username2):
+    return "".join(sorted([username1,username2]))
+
+
 def print_path():
     print(os.path.abspath(__file__))
