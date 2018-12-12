@@ -8,6 +8,8 @@ from django.http import HttpResponse
 from django.db.models import Q
 import json
 from django.contrib.auth.decorators import login_required
+from circlr import settings
+from django.core.mail import send_mail
 # Create your views here.
 
 
@@ -20,6 +22,12 @@ def sendr(request):
         if not Friends_Status.objects.filter(Q(sender=receiver,receiver=request.user,status=False) | Q(sender=request.user,receiver=receiver,status=False)):
             Friends_Status.objects.create(sender=request.user,receiver=receiver,status=False)
             response_data['success']='Friend Request Sent'
+            send_mail(
+                    'Friend Request',
+                    'You have a friend request from '+ request.user.username,
+                    settings.EMAIL_HOST_USER,
+                    [receiver.email]
+                    )
         else:
             response_data['success']='Error Sending Request try to reload the page'
 
