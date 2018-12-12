@@ -1,11 +1,12 @@
-{% extends 'base_blank.html' %}
+{% extends 'base_layout2.html' %}
+
 {% block content %}
-<div class="w3-container w3-content" style="max-width:1400px;margin-top:150px; text-align:center;">
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:150px">
   <h1>Email Confirmation Sent</h1>
   <p><br>
     We've emailed you a link to verify your account.<br>
     If an account with the email you entered exists, then you should receive it shortly.
   </p>
-  <a href="{% url 'home' %}">Return to homepage</a>
+
 </div>
 {% endblock %}

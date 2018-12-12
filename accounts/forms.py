@@ -1,11 +1,11 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import UserProfile
+from .models import UserProfile, Interest_Model
 from django.utils.safestring import mark_safe
 
 class RegistrationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    email = forms.EmailField()
 
     class Meta:
         model = User
@@ -22,12 +22,17 @@ class RegistrationForm(UserCreationForm):
         user = super(RegistrationForm, self).save(commit=False)
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
-        user.email = self.cleaned_data['email']
-
+        
         if commit:
             user.save()
 
         return user
+
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        if User.objects.filter(email=data).exists():
+            raise forms.ValidationError("This email already exists")
+        return data
 
 
 class EditProfileForm(forms.ModelForm):
@@ -49,7 +54,7 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ('bio', 'city', 'interests', 'picture')
+        fields = ('bio', 'city', 'picture')
 
     def save(self, user=None):
         user_profile = super(UserProfileForm, self).save(commit=False)

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+      <h1>Settings</h1>
+      <br><br>
+      <div>
+          <ul>
+              <li><a href="{% url 'accounts:change_password' %}" style="font-size: 23px">Change Password</a></li>
+              <li><a href="{% url 'accounts:delete' %}" style="font-size: 23px">Delete Your Account</a></li>
+          </ul>
+      </div>
+{% endblock %}
