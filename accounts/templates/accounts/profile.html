@@ -107,10 +107,11 @@
   </div>
   <center>
     <p style="font-size:36px; margin-top:0px;font-family: Sitefont-medium">{{ user }}<br></p>
-    <div id="bio">{{ user.userprofile.bio }}</div>
+    {% if user.userprofile.bio %}<div id="bio">{{ user.userprofile.bio }}</div>{% endif %}
   </center>
   <div id="editdiv">
     {% if editable == True %}
+    <button id="edit" onclick="window.location.href='{% url 'accounts:settings' user.username %}'">Settings</button>
     <button id="edit" onclick="window.location.href='{% url 'accounts:edit_profile' user.username %}'">Edit Profile</button>
     {% endif %}
   </div>

@@ -22,7 +22,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
-
+from django.http import Http404
 
 # Create your views here.
 @login_required(login_url="/accounts/login")
@@ -40,7 +40,7 @@ def signup_view(request):
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            mail_subject = 'Activate your blog account.'
+            mail_subject = 'Activate your Circlr account.'
             message = render_to_string('accounts/acc_active_email.html', {
                 'user': user,
                 'domain': current_site.domain,
@@ -110,13 +110,15 @@ def logout_view(request):
 
 
 @login_required(login_url="/accounts/login")
-def settings_view(request):
-    return render(request, 'accounts/settings.html')
+def settings_view(request, username):
+    if request.user == User.objects.get(username=username):
+        return render(request, 'accounts/settings.html')
+    else:
+        raise Http404
 
 @csrf_exempt
 @login_required(login_url="/accounts/login")
 def delete_account(request):
-    print("Went to delete")
     confirm = request.POST.get("confirm")
     print(confirm)
     if confirm=="ok":
