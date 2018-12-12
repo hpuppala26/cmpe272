@@ -84,6 +84,15 @@
                 font-size: 1em;
             }
         }
+    .question{
+        overflow:scroll;
+        height: 320px;
+        overflow-x: hidden;
+    }
+    .question::-webkit-scrollbar{
+        width: 0px;
+        background: transparent; /* make scrollbar transparent */
+    }
     </style>
 {% endblock css %}
 {% block content %}
@@ -92,7 +101,7 @@
     <div class="sidepad" style="width:10%;margin-top:80px;padding:10px;float: right;"></div>
     <div class="centercontent" style="width:80%;max-width:1400px;margin-top:80px;padding:10px;float: right;">
         <center>
-            <h1>Poll Question : {{ question.question_text }}</h1>
+            <h1>Poll Question :<br><div class="question">{{ question.question_text }}</h1>
         </center>
     </div>
 </div>

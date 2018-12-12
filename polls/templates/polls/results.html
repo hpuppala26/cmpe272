@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 {% block css %}
 {{block.super}}
 <style>
@@ -103,6 +104,20 @@
             width: 100%!important;
         }
     }
+    .chartcontainer{
+        height: 60%;
+        width: 60%;
+        margin-top:-70px;
+    }
+    .question{
+        overflow:scroll;
+        height: 100px;
+        overflow-x: hidden;
+    }
+    .question::-webkit-scrollbar{
+        width: 0px;
+        background: transparent; /* make scrollbar transparent */
+    }
 </style>
 {% endblock css %}
 <div class="leftpart" style="width:50%;height: 80vh;vertical-align: middle;">
@@ -110,7 +125,8 @@
     <div class="sidepad" style="width:10%;margin-top:80px;padding:10px;float: right;"></div>
     <div class="centercontent" style="width:80%;max-width:1400px;margin-top:80px;padding:10px;float: right;">
         <center>
-            <h1>Results for :<br>{{ question.question_text }}</h1>
+            <h1 style="margin-top:-60px;">Results for :<br><div class="question">{{ question.question_text }}</div></h1>
+            <div class="chartcontainer"><canvas id="pie-chart" width="100%" height="100%"></canvas></div>
         </center>
     </div>
 </div>
@@ -127,4 +143,27 @@
         <center><button id="Submit" onclick="window.location.href='{% url "polls:index" %}'">Vote Again ?</button></center>
     </div>
 </div>
+<script>
+
+    var c_text = [];
+    var c_votes = [];
+    {% for choice in question.choice_set.all %}
+        c_text.push("{{ choice.choice_text }}")
+        c_votes.push("{{ choice.votes }}")
+    {% endfor %}
+
+
+    new Chart(document.getElementById("pie-chart").getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: c_text,
+            datasets: [{
+                label: "Polls (Votes)",
+                backgroundColor: ["#3e95cd","#23ed34","#767676","#233423","#231456"],
+                data: c_votes,
+            }]
+        },
+        options: {}
+    });
+</script>
 {% endblock content %}
