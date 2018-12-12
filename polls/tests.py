@@ -6,8 +6,6 @@ from django.urls import reverse
 from django.test.utils import override_settings
 from django.core import mail
 from .models import *
-# ----------------------------------------------- MODELS TESTING -------------------------------------------------------
-
 class QuestionModelTest(TestCase):
     """
     def setUp(self):
@@ -144,7 +142,7 @@ class VoterTest(TestCase):
     Voter.objects.create(user="testuser3", question_id=3)
     def test_search_voter(self):
         self.assertTrue(Voter.objects.filter(question_id=1,user="testuser1").exists)
-
+"""
 class TestUrls(TestCase):
     def setUp(self):
         self.user = User.objects.create(username="testuser1",email="testuser@mail.com",password="Hi Guys")
@@ -152,3 +150,80 @@ class TestUrls(TestCase):
     def test_(self):
         c = Client
         self.client.force_login(self.user)
+"""
+
+class TestViews(TestCase):
+
+    def test_results_view_with_a_question_with_choices(self):
+        question_with_choices = Question.objects.create(question_text="Hey Django User!")
+        response = self.client.get(reverse('polls:results',
+                                           args=(question_with_choices.id,)))
+        self.assertEqual(response.status_code, 200)
+
+
+    def test_detail_view_with_a_question_with_choices(self):
+        question_with_choices = Question.objects.create(question_text="hey user !!")
+
+        response = self.client.get(reverse('polls:detail',
+                                   args=(question_with_choices.id,)))
+        self.assertContains(response, question_with_choices.question_text,
+                            status_code=200)
+
+class QuestionViewTests(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create(username="testuser1", email="testuser@mail.com", password="Hi Guys")
+
+    def test_index_view_with_no_question(self):
+        c = Client
+        self.client.force_login(self.user)
+        question_list = Question.objects.all()
+        """
+            If no questions exist, an appropriate message should be displayed.
+            """
+        response = self.client.get(reverse('polls:index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['latest_question_list'], [])
+
+    def test_index_view_return_message(self):
+        c = Client
+        self.client.force_login(self.user)
+        question_list = Question.objects.all()
+        """
+            If no questions exist, an appropriate message should be displayed.
+            """
+        response = self.client.get(reverse('polls:index'))
+        self.assertContains(response, "No polls are available.")
+
+
+class QuestionVoteTests(TestCase):
+    def test_vote_method_without_select_choice(self):
+        question = Question.objects.create(question_text="A question.")
+        response = self.client.get(reverse('polls:vote',
+                                   args=(question.id,)))
+        self.assertIsNotNone(response.context['error_message'])
+
+    def test_vote_method(self):
+        question = Question.objects.create(question_text="A question.")
+        choice = Choice.objects.create(question_id=1,choice_text="Hello",votes=0)
+        choice = question.choice_set.get(pk=1)
+        response = self.client.post(reverse('polls:vote',
+                                            args=(question.id,)),
+                                    data={'choice': choice.id})
+        self.assertGreater(question.choice_set.get(pk=1).votes, choice.votes)
+        self.assertRedirects(response,
+                             expected_url=reverse('polls:results',
+                                                  args=(question.id,)))
+
+
+    def test_index_view_with_two_questions(self):
+        Question.objects.create(question_text="poll qsn 1.")
+        Question.objects.create(question_text="Poll qsn 2.")
+        response = self.client.get(reverse('polls:index'))
+        p = len(Question.objects.all())
+        self.assertEqual(p,2)
+
+    def test_index_view_with_no_polls(self):
+        response = self.client.get(reverse('polls:index'))
+        p = len(Question.objects.all())
+        self.assertEqual(p,0)
