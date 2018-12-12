@@ -5,6 +5,7 @@ from accounts.forms import (
     RegistrationForm,
     EditProfileForm
 )
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -65,9 +66,8 @@ def signup_detailsview(request):
         if profile_form.is_valid():
             profile_form.save()
             interest_var = request.POST.get('interests')
-            interest_var = interest_var.lower().replace(" ","")
-            interest_var = interest_var.lower().replace(","," ").split(" ")
-            interest_var = list(filter(None, interest_var))
+            interest_var = interest_var.lower().replace(","," ")
+            interest_var = interest_var.split()
             for var in interest_var:
                 a = User.objects.get(username=request.user.username)
                 Interest_Model.objects.create(username=a, interest=var)
@@ -113,12 +113,17 @@ def logout_view(request):
 def settings_view(request):
     return render(request, 'accounts/settings.html')
 
-
+@csrf_exempt
 @login_required(login_url="/accounts/login")
-def delete_account(request, username):
-    u = User.objects.get(username = username)
-    u.delete()
-    logout(request)
+def delete_account(request):
+    print("Went to delete")
+    confirm = request.POST.get("confirm")
+    print(confirm)
+    if confirm=="ok":
+        print("Confirm is ok")
+        u = User.objects.get(username = request.user.username)
+        u.delete()
+        logout(request)
     return redirect('accounts:home')
 
 
@@ -137,6 +142,7 @@ def view_profile(request, username):
     interestlist=[]
     for i in interests:
         interestlist.append(i.interest)
+
     args = {'user':user, 'editable':editable, 'interestlist':interestlist}
     return render(request, 'accounts/profile.html', args)
 

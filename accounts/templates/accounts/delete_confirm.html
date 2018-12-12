@@ -1,12 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
       <h1>Are you sure you want to delete this account?</h1>
       <br><br>
       <div>
           <ul>
-              <li><a href="{% url 'accounts:delete_account' request.user.username  %}" style="font-size: 23px">Yes, I am sure</a></li>
+              <li><a  onclick="confirmdelete()" style="font-size: 23px;cursor:pointer">Yes, I am sure</a></li>
               <li><a href="{% url 'accounts:settings' %}" style="font-size: 23px">No, go back</a></li>
+
           </ul>
       </div>
+      <script src="https://cdn.rawgit.com/mgalante/jquery.redirect/master/jquery.redirect.js"></script>
+      <script type="text/javascript">
+        function confirmdelete(){
+          
+          $.redirect('{% url "accounts:delete_account" %}',{'confirm': 'ok', 'arg2': 'value2'});
+        }
+      </script>
 {% endblock %}
