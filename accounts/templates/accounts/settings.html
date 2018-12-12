@@ -36,6 +36,7 @@
     <div class="row">
         <button id="Submit" onclick="window.location.href='{% url "accounts:change_password" %}'">Change Password</button>
         <button id="Submit" onclick="window.location.href='{% url "accounts:delete" %}'">Delete Your Account</button>
+        <button id="Submit" onclick="window.location.href='{% url "accounts:profile" request.user.username %}'">Go Back</button>
     </div>
     </center>
 </div>
