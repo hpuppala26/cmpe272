@@ -191,7 +191,7 @@
                 {% for user in userlist %}
                 {% if user != request.user.username %}
                 <div class="userlist">
-                    <a href="../accounts/profile/{{user.username}}">
+                    <a href="../accounts/profile/{{user}}">
                         <h4>{{user}}</h4>
                     </a>
                     {% if user not in filteringbutton %}
@@ -224,7 +224,7 @@
                 {%if interestlist %}
                 {% for user in interestlist %}
                 <div class="userlist">
-                    <a href='../accounts/profile/{{user.username}}'>
+                    <a href='../accounts/profile/{{user}}'>
                         <h4>{{user}}</h4>
                     </a>
                     {% if user.username not in filteringbutton %}
@@ -253,7 +253,7 @@
                 {% for user in suggestionlist %}
                 {% if user.username not in filteringbutton %}
                 <div class="userlist">
-                    <a href='../accounts/profile/{{user.username}}'>
+                    <a href='../accounts/profile/{{user}}'>
                         <h4>{{user}}</h4>
                     </a>
                     <p class="{{user}}" style="margin-top : -15px;">
@@ -279,7 +279,7 @@
                 {% if friends %}
                 {% for frnd in friends %}
                 <div class="userlist">
-                    <a href='../accounts/profile/{{frnd.username}}'>
+                    <a href='../accounts/profile/{{frnd}}'>
                         <h4>{{frnd}}</h4>
                     </a><br>
                     <p class="{{frnd}}">
@@ -302,7 +302,7 @@
                 {%if pendingfrnds %}
                 {% for fr in pendingfrnds %}
                 <div class="userlist">
-                    <a href='../accounts/profile/{{fr.username}}'>
+                    <a href='../accounts/profile/{{fr}}'>
                         <h4>{{fr}}</h4>
                     </a><br>
                     <p class="{{fr}}">

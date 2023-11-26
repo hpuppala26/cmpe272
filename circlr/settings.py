@@ -49,6 +49,8 @@ INSTALLED_APPS = [
 	'api',
 	'rest_framework',
     'rest_framework.authtoken',
+    'bootstrap4',
+    'crispy_bootstrap4'
 ]
 
 MIDDLEWARE = [
@@ -162,8 +164,8 @@ LOGIN_EXEMPT_URLS = (
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'projectcirclr@gmail.com'
-EMAIL_HOST_PASSWORD = 'circlr@147'
+EMAIL_HOST_USER = 'hrithik.p17@iiits.in'
+EMAIL_HOST_PASSWORD = 'yxcq ewcd gjui moms'
 EMAIL_PORT = 587
 
 MEDIA_URL = '/media/'
@@ -171,3 +173,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'circlr/media')
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
+

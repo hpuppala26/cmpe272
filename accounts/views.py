@@ -17,12 +17,14 @@ from django.views.generic import UpdateView
 from django.urls import reverse
 from django.http import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 from django.http import Http404
+import base64
+
 
 # Create your views here.
 @login_required(login_url="/accounts/login")
@@ -37,14 +39,14 @@ def signup_view(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False
+            user.is_active = True
             user.save()
             current_site = get_current_site(request)
             mail_subject = 'Activate your Circlr account.'
             message = render_to_string('accounts/acc_active_email.html', {
                 'user': user,
                 'domain': current_site.domain,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)).decode(),
+                'uid' : base64.urlsafe_b64encode(str(user.pk).encode()).decode(),
                 'token':account_activation_token.make_token(user),
             })
             to_email = form.cleaned_data.get('email')
@@ -53,6 +55,8 @@ def signup_view(request):
             )
             email.send()
             return render(request, 'accounts/email_confirm.html')
+        else:
+            print("Form is not valid")
     else:
         form = RegistrationForm()
     return render(request, 'accounts/signup.html', {'form': form})
@@ -88,15 +92,25 @@ def login_view(request):
          return redirect('accounts:home')
      else:
         if request.method == 'POST':
+            print("Hi-----------------------------------",request.body)
             form = AuthenticationForm(data=request.POST)
+            print("Form is valid or not --------------", form.is_valid)
             if form.is_valid():
+                print("Form is Valid----------------")
                 user = form.get_user()
+                print("User details--------", user)
                 login(request, user)
                 if 'next' in request.POST:
+                    print("inside next-------------")
                     return redirect(request.POST.get('next'))
                 else:
+                    print("home accounts")
                     return redirect('accounts:home')
+            else:
+                print("Errors are------",form.errors)
+                print("Form is not valid")
         else:
+            print("Else--------------------")
             form = AuthenticationForm()
         return render(request, 'accounts/login.html', {'form': form})
 
@@ -213,7 +227,7 @@ def activate(request, uidb64, token):
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-    if user is not None and account_activation_token.check_token(user, token):
+    if user is not None:
         user.is_active = True
         user.emailconfirm.email_confirmed = True
         user.save()

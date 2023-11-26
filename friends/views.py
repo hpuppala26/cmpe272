@@ -156,3 +156,21 @@ def matching(request):
             return render(request, 'friends/friendsugg.html', {'interestlist':list1,'form':form,'form1':form1,'curruserinterest':curruserinterest,'suggestionlist':suggestionlist,'friends':friends,'pendingfrnds':pendingfrnd, 'filteringbutton':filteringbutton})
         args = {'form':form,'form1':form1,'suggestionlist':suggestionlist,'friends':friends,'pendingfrnds':pendingfrnd,'filteringbutton':filteringbutton}
         return render(request, 'friends/friendsugg.html', args)
+
+
+
+@login_required(login_url="/accounts/login")
+def view_profile(request, username):
+    user = User.objects.get(username=username)
+    interests = Interest_Model.objects.filter(username=user)
+    editable = False
+    if request.user.is_authenticated and request.user == user:
+        editable = True
+    interestlist=[]
+    for i in interests:
+        interestlist.append(i.interest)
+
+    args = {'user':user, 'editable':editable, 'interestlist':interestlist}
+    return render(request, 'accounts/profile.html', args)
+
+

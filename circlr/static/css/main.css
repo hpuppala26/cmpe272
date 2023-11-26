@@ -26,7 +26,7 @@ body {
     height: 100vh;
     font-family: Sitefont-book;
     font-weight: 400;
-    background: radial-gradient(ellipse closest-side at 50% 50%, #393e44, #36383b 25%, #343233);
+    background: radial-gradient(ellipse closest-side at 50% 50%, #ffffff, #ffffff 25%, #ffffff);
     background-position: center;
     background-size: cover;
 }
